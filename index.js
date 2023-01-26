@@ -5,6 +5,7 @@ const jsonParser = bodyParser.json()
 const app = express()
 
 const port = 3000
+
 app.listen(port, () => console.log('Server is Runing'))
 
 const users = [ 
@@ -22,19 +23,23 @@ app.get( '/users', (req, res) => res.send(users))
 
 //get user gender #male #female
 app.get( '/users/:gender', (req, res) => {
+  console.log(req.params.gender);
   const isMan = req.params.gender
   if ( isMan === "male" ) res.send( users.filter( i => i.isMan == true))
   if ( isMan === "female" ) res.send( users.filter( i => i.isMan == false))
 })
 
-// get user age #min #max
-app.get( '/users', jsonParser, (req, res) => {
+// get user filter age #min #max
+app.get( '/filtredUsers', (req, res) => {
   console.log(req.query)
-  console.log(JSON.stringify(req.query))
-  console.log(req.route)
+  // console.log(JSON.stringify(req.query))
+  // console.log(req.route)
   const minAge = req.query.min
   const maxAge = req.query.max
-  const filterAge = users.filter( i => i.age >= minAge && i.age <= maxAge ? i.age : false)
+  const filterAge = users.filter( i =>{
+      if (i.age >= minAge && i.age <= maxAge){ return i }
+  })
+  console.log(filterAge);
   res.send(filterAge)
 })
 

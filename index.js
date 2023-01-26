@@ -1,12 +1,16 @@
+require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
+// require('dotenv').load()
+
+
 const jsonParser = bodyParser.json()
 
 const app = express()
 
-const port = 3000
-
-app.listen(port, () => console.log('Server is Runing'))
+const port = process.env.PORT
+console.log(process.env.PORT);
+app.listen(port, () => console.log('Server is Runing' + port))
 
 const users = [ 
   { id: 1, name: 'Sergey', isMan: true , age: 31 },
@@ -32,8 +36,6 @@ app.get( '/users/:gender', (req, res) => {
 // get user filter age #min #max
 app.get( '/filtredUsers', (req, res) => {
   console.log(req.query)
-  // console.log(JSON.stringify(req.query))
-  // console.log(req.route)
   const minAge = req.query.min
   const maxAge = req.query.max
   const filterAge = users.filter( i =>{

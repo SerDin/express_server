@@ -6,8 +6,8 @@ class UserControllers {
 		let users = await UsersService.getUsers()
 		return users
 	}
-	async getUsersBuId(id){
-		let user = await UsersService.getUsersBuId(id)
+	async getUsersById(id){
+		let user = await UsersService.getUsersById(id)
 		return user
 	}
 }

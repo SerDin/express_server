@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const UserControllers = require('../../controllers/user.controller')
+const MessageControllers = require('../../controllers/message.controller')
 
 router.get( '/', async (req, res) => {
 	try{
-	const getUsers = await UserControllers.getUsers()
-	res.send( getUsers )
+	const getMessage= await MessageControllers.getMessages()
+	res.send( getMessage )
 	} catch(err){
 		console.log(err);
 	}
@@ -13,8 +13,8 @@ router.get( '/', async (req, res) => {
 
 router.get( '/:id', async (req, res) => {
 	try{
-		const getBuId = await UserControllers.getUsersById(req.params.id)
-		res.send( getBuId )
+		const getMessageById = await MessageControllers.getMessageById(req.params.id)
+		res.send( getMessageById )
 	} catch(err){
 		console.log(err);
 	}

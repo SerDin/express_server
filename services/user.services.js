@@ -17,7 +17,7 @@ class UsersService {
 		)
 		return getUsers
 	}
-	getUsersBuId(id){
+	getUsersById(id){
 		return new Promise( (res, rej) => {
 			return res(users.find( i => i.id == id ))
 		})

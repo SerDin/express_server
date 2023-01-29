@@ -24,24 +24,22 @@ app.get( '/users', (req, res) => res.send(users))
 //get user gender #male #female
 app.get( '/users/:gender', (req, res) => {
   console.log(req.params.gender);
-  const isMan = req.params.gender
-  if ( isMan === "male" ) res.send( users.filter( i => i.isMan == true))
-  if ( isMan === "female" ) res.send( users.filter( i => i.isMan == false))
+  const {gender} = req.params
+  if ( gender === "male" ) res.send( users.filter( i => i.isMan == true))
+  if ( gender === "female" ) res.send( users.filter( i => i.isMan == false))
 })
 
 // get user filter age #min #max
 app.get( '/filtredUsers', (req, res) => {
   console.log(req.query)
-  // console.log(JSON.stringify(req.query))
-  // console.log(req.route)
-  const minAge = req.query.min
-  const maxAge = req.query.max
+  const {min, max} = req.query
   const filterAge = users.filter( i =>{
-      if (i.age >= minAge && i.age <= maxAge){ return i }
+      if (i.age >= min && i.age <= max){ return i }
   })
   console.log(filterAge);
   res.send(filterAge)
 })
+
 
 // add new user { id: ... , name: '...', isMan: boolean , age: ...  }
 app.post( '/user', jsonParser, (req, res) => {
@@ -74,7 +72,7 @@ app.patch( '/user/:id', jsonParser, (req, res) => {
 // delete user { id: ... }
 app.delete( '/user/:id', (req, res) => {
   console.log(req.params.id)
-  const id = users.findIndex( i => i.id === req.params.id)
+  const id = users.findIndex( i => i.id == req.params.id)
   users.splice(id, 1)
   res.send(`${id}`)
 })

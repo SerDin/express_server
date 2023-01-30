@@ -19,9 +19,15 @@ class UsersService {
 
 	async readData(){
 		 const data = await fs.readFileSync('./services/data.json', "utf8")		 
-		 const dataParse =  await JSON.parse(data)
+		 const dataParse = await JSON.parse(data)
 		 return await dataParse.users
 		}
+
+	async writeData(dataset){
+		console.log(typeof dataset);
+		await fs.writeFileSync( '../data.json', JSON.stringify(dataset))
+		console.log('dataset',dataset);
+	}
 
 	getUsers(){
 		return new Promise((res, rej) => {
@@ -30,17 +36,19 @@ class UsersService {
 			}
 		)
 	}
-	getUsersById(id){
-		return new Promise( (res, rej) => {
-			// const users = this.readData()
-			// const us = Object.entries(users)
-			// // console.log(Array.isArray(us));
-			// console.log(us);
-			res(us.find( i => i.id == id ))
-		})
+
+	async getUsersById(id){
+		const users = await this.readData()
+		console.log(users.find( i => i.id == id ));
+		return users.find( i => i.id == id )
+		// return new Promise((res, rej) => {
+		// 	const data = this.readData()
+		// 		res( data.then(i => i.find( i => i.id == id )))
+		// 	}
+		// )
 	}
-	getGenderUsers(gender){
-		return new Promise( (res, rej) => {
+	async getGenderUsers(gender){
+		// return new Promise( (res, rej) => {
 			//  switch(gender){
 			// 	case 'male' :
 			// 		 return res(users.filter( i => i.isMan))
@@ -49,23 +57,44 @@ class UsersService {
 			// 		 return res(users.filter( i => !i.isMan))
 			// 	break
 			// }
-			if ( gender == "male" ) res( users.filter( i => i.isMan))
-			if ( gender == "female" ) res( users.filter( i => !i.isMan))
-		})
+			// if ( gender == "male" ) res( users.filter( i => i.isMan))
+			// if ( gender == "female" ) res( users.filter( i => !i.isMan))
+
+			const users = await this.readData()
+			if ( gender == "male" ) return users.filter( i => i.isMan)
+			if ( gender == "female" ) return users.filter( i => !i.isMan)
+		}
+		// )
+	// }
+	
+async putUsers(data, id){
+		const users = await this.readData()
+		console.log(users);
+		console.log('data, id',data, id);
+		const updateUsers = await users.map( i => i.id == id ? data : i )
+		console.log('updateUsers',updateUsers);
+		const createdUser = await updateUsers.splice(0, users.length, ...updateUsers)
+		console.log('createdUser',createdUser);
+		this.writeData(createdUser)
+		return createdUser
+
+
+		// const users2 = await this.readData()
+		// console.log('users2',users2);
+		// return await users2.filter( i => i.id == id)
+
+		// return users.filter( i => i.id == id)
+
 	}
-	putUsers(data, id){
-		return new Promise( (res,rej) => {
-			const updateUsers = users.map( i => ( i.id == id ? data : i ))
-			users.splice(0, users.length, ...updateUsers)
-			res(users.filter( i => i.id == id))
-		}) 
-	}
-	postUsers(data){
-		return new Promise( (res,rej) => {
-			users.push(data)
-			// res.status(201)
-			res(users.at(-1))
-		}) 
+	async postUsers(data){
+				const users = await this.readFileSync()
+					users.push(data)
+			return users.at(-1)
+
+	// 	// return new Promise( (res,rej) => {
+	// 	// 	users.push(data)
+	// 	// 	// res.status(201)
+	// 	// }) 
 	}
 	patchUser(data){
 		return new Promise( (res, rej) => {

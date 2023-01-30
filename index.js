@@ -4,7 +4,6 @@ const bodyParser = require('body-parser')
 
 const jsonParser = bodyParser.json()
 
-
 const fs = require('fs')
 
 const routes = require('./routes/index')

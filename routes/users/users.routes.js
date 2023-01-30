@@ -46,7 +46,7 @@ router.post( '/create', jsonParser, async (req, res) => {
 
 router.put( '/edit/:id', jsonParser, async (req, res) => {
 	try{
-		const editParametrsUsers = await UserControllers.postUser(req.body)	
+		const editParametrsUsers = await UserControllers.putUser(req.body, req.params.id)	
 		res.send( editParametrsUsers )	
 	}
 	catch(err){

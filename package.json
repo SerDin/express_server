@@ -4,7 +4,8 @@
   "description": "My first server",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "devin": "node install"
   },
   "repository": {
     "type": "git",

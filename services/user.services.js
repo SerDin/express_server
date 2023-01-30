@@ -1,24 +1,42 @@
-const users = [ 
-  { id: 1, name: 'Sergey', isMan: true , age: 31 },
-  { id: 5, name: 'Julianna', isMan: false , age: 28 },
-  { id: 4, name: 'Daniil', isMan: true , age: 1 },
-  { id: 3, name: 'Pasha', isMan: true , age: 42 },
-  { id: 2, name: 'Denis', isMan: true , age: 31 },
-  { id: 6, name: 'Piter', isMan: true, age: 56},
-  { id: 7, name: 'Ekaterina', isMan: false, age: 22},
+const fs = require('fs')
 
-]
+
+// const users = [ 
+//   { id: 1, name: 'Sergey', isMan: true , age: 31 },
+//   { id: 5, name: 'Julianna', isMan: false , age: 28 },
+//   { id: 4, name: 'Daniil', isMan: true , age: 1 },
+//   { id: 3, name: 'Pasha', isMan: true , age: 42 },
+//   { id: 2, name: 'Denis', isMan: true , age: 31 },
+//   { id: 6, name: 'Piter', isMan: true, age: 56},
+//   { id: 7, name: 'Ekaterina', isMan: false, age: 22}
+// ]
+
+//  const js = JSON.stringify(users)
+// fs.writeFileSync( '../data.json', js)
+
 
 class UsersService {
+
+	async readData(){
+		 const data = await fs.readFileSync('./services/data.json', "utf8")		 
+		 const dataParse =  await JSON.parse(data)
+		 return await dataParse.users
+		}
+
 	getUsers(){
 		return new Promise((res, rej) => {
-				res(users)
+			const data = this.readData()
+				res( data )
 			}
 		)
 	}
 	getUsersById(id){
 		return new Promise( (res, rej) => {
-			res(users.find( i => i.id == id ))
+			// const users = this.readData()
+			// const us = Object.entries(users)
+			// // console.log(Array.isArray(us));
+			// console.log(us);
+			res(us.find( i => i.id == id ))
 		})
 	}
 	getGenderUsers(gender){

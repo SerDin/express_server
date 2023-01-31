@@ -25,49 +25,35 @@ class UsersService {
 
 	async writeData(dataset){
 		console.log(typeof dataset);
-		await fs.writeFileSync( '../data.json', JSON.stringify(dataset))
-		console.log('dataset',dataset);
+		//получил данные
+		const jsonWrite = JSON.stringify(dataset)
+		console.log('jsWrite',jsonWrite)
+		//записал данные
+		await fs.appendFileSync(
+			'../data.json',
+			jsonWrite,
+			err => { if (err) throw err}
+		)
+		return console.log('jsWrite',jsonWrite);
 	}
 
-	getUsers(){
-		return new Promise((res, rej) => {
-			const data = this.readData()
-				res( data )
-			}
-		)
+	async getUsers(){
+		return await this.readData()
 	}
 
 	async getUsersById(id){
 		const users = await this.readData()
 		console.log(users.find( i => i.id == id ));
 		return users.find( i => i.id == id )
-		// return new Promise((res, rej) => {
-		// 	const data = this.readData()
-		// 		res( data.then(i => i.find( i => i.id == id )))
-		// 	}
-		// )
 	}
-	async getGenderUsers(gender){
-		// return new Promise( (res, rej) => {
-			//  switch(gender){
-			// 	case 'male' :
-			// 		 return res(users.filter( i => i.isMan))
-			// 	break
-			// 	case 'female' :
-			// 		 return res(users.filter( i => !i.isMan))
-			// 	break
-			// }
-			// if ( gender == "male" ) res( users.filter( i => i.isMan))
-			// if ( gender == "female" ) res( users.filter( i => !i.isMan))
-
+	async getGenderUsers(gender){	
 			const users = await this.readData()
 			if ( gender == "male" ) return users.filter( i => i.isMan)
 			if ( gender == "female" ) return users.filter( i => !i.isMan)
 		}
-		// )
-	// }
 	
 async putUsers(data, id){
+			//читаю файл с данными
 		const users = await this.readData()
 		console.log(users);
 		console.log('data, id',data, id);
@@ -75,16 +61,15 @@ async putUsers(data, id){
 		console.log('updateUsers',updateUsers);
 		const createdUser = await updateUsers.splice(0, users.length, ...updateUsers)
 		console.log('createdUser',createdUser);
-		this.writeData(createdUser)
-		return createdUser
+		//передал данные в запись
+		await this.writeData(createdUser)
+		//читаю файл с данными
+		const users2 = await this.readData()
 
-
-		// const users2 = await this.readData()
-		// console.log('users2',users2);
-		// return await users2.filter( i => i.id == id)
+		console.log('users2',users2);
+		return await users2.filter( i => i.id == id)
 
 		// return users.filter( i => i.id == id)
-
 	}
 	async postUsers(data){
 				const users = await this.readFileSync()

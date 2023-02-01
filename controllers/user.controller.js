@@ -15,11 +15,11 @@ class UserControllers {
 		return genderUsers
 	}
 	async postUser(data){
-		let createUser = await UsersService.postUsers(data)
+		let createUser = await UsersService.postUser(data)
 		return createUser
 	}
 	async putUser(data, id){
-		let createUser = await UsersService.putUsers(data, id)
+		let createUser = await UsersService.putUser(data, id)
 		return createUser
 	}
 	async editUser(data){

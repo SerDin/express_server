@@ -3,9 +3,14 @@ const fs = require('fs')
 class UsersService {
 
 	async readData(){
-		 const data = await fs.readFileSync('./data.json', "utf8")		 
-		 const dataParse = await JSON.parse(data)
-		 return await dataParse.users
+		//  const allUsers = 
+		//  await fs.readFile('data.json', "utf8", (err, data) => {
+		// 	if (err) throw err
+		//  const dataParse = JSON.parse(data)
+		//  return dataParse
+
+		//  })		 
+		// //  return await allUsers
 	// return await	fs.readFile('../data.json', 'utf8', (err, data) => {
 	// 		console.log('Асинхронное чтение файла');
 	// 		if (err) throw err
@@ -15,6 +20,9 @@ class UsersService {
 	// 		console.log('typeof obj',typeof data)
 	// 		return obj.users
 	// 	})
+		 const data = await fs.readFileSync('./data.json', "utf8")		 
+		 const dataParse = await JSON.parse(data)
+		 return dataParse
 	}
 
 	async writeData(dataset){
@@ -24,32 +32,30 @@ class UsersService {
 		console.log('jsWrite',jsonWrite)
 		//записал данные
 		 await fs.appendFileSync(
-			'../data.json',
+			'data.json',
 			jsonWrite,
 			// function (err) {
 			// 	 if (err){ throw err}
 			// 	 else {console.log('writeOk') }
 			// } 
 		)
-		 await fs.writeFileSync(
-			'../data.json',
-			jsonWrite,
-			// function (err) {
-			// 	 if (err){ throw err}
-			// 	 else {console.log('writeOk') }
-			// } 
-		)
+		//  await fs.writeFileSync(
+		// 	'data.json',
+		// 	jsonWrite,
+		// 	// function (err) {
+		// 	// 	 if (err){ throw err}
+		// 	// 	 else {console.log('writeOk') }
+		// 	// } 
+		// )
 		return console.log('Write is OK');
 	}
-
-
 
 	async getUsers(){
 		return await this.readData()
 	}
 
 	async getUsersById(id){
-		const users = await this.readData()
+		const users = await this.readData('users')
 		console.log(users.find( i => i.id == id ));
 		return users.find( i => i.id == id )
 	}
@@ -62,20 +68,20 @@ class UsersService {
 	
  async putUser(data, id){
 			//читаю файл с данными
-		await fs.readFile('./data.json', "utf8", (err, datas ) => {
+		await fs.readFile('data.json', "utf8", (err, datas ) => {
 			if (err) throw err
 			const users = JSON.parse(datas)
 			console.log(users);
 			const updateUsers = users.users.map( i => i.id == id ? data : i )
 			console.log('updateUsers',updateUsers)
 
-			// const createdUser = updateUsers.splice(0, users.length, ...updateUsers)
-			// console.log('createdUser',createdUser);
+			const createdUser = updateUsers.splice(0, users.length, ...updateUsers)
+			console.log('createdUser',createdUser);
 			const dataWrite = JSON.stringify(updateUsers)
 			console.log(typeof updateUsers);
 
 			 fs.writeFile(
-				'../data.json',
+				'data.json',
 				dataWrite,
 				function (err) {
 					if (err){ throw err }
@@ -108,9 +114,22 @@ class UsersService {
 	}
 
 	async postUser(data){
-				const users = await this.readData()
-					users.push(data)
-			return users.at(-1)
+			const dataRead = await this.readData()
+			console.log('users', dataRead);
+			await dataRead.users.push(data)
+			 await fs.writeFile(
+				'data.json',
+				JSON.stringify(dataRead),
+				(err) => {
+					if (err){ throw err }
+					else {console.log('writePostOk') 
+				}}
+			)
+									return await console.log( this.readData().users)
+
+			// const users2 = await this.readData()
+
+			// return users2.users.at(-1)
 
 	// 	// return new Promise( (res,rej) => {
 	// 	// 	users.push(data)

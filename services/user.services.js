@@ -87,14 +87,18 @@ class UsersService {
 		const dataRead = await this.readData();
 		console.log('users', dataRead);
 		await dataRead.users.push(data);
-		await fs.writeFile('data.json', JSON.stringify(dataRead), (err) => {
+		console.log('dataRead', dataRead);
+		await fs.writeFileSync('data.json', JSON.stringify(dataRead), (err) => {
 			if (err) {
 				throw err;
 			} else {
 				console.log('writePostOk');
 			}
 		});
-		return await console.log(this.readData().users);
+		const datas = await fs.readFileSync('data.json', 'utf8');
+		const dataParse = await JSON.parse(datas);
+
+		return dataParse.users.at(-1);
 
 		// const users2 = await this.readData()
 

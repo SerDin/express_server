@@ -24,7 +24,7 @@ class UsersService {
 	async getUsersById(id) {
 		const users = await this.readData();
 		console.log(users.users.find((i) => i.id == id));
-		return users.find((i) => i.id == id);
+		return users.users.find((i) => i.id == id);
 	}
 
 	async getGenderUsers(gender) {

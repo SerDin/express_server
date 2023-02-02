@@ -29,8 +29,8 @@ class UsersService {
 
 	async getGenderUsers(gender) {
 		const users = await this.readData();
-		if (gender == 'male') return users.filter((i) => i.isMan);
-		if (gender == 'female') return users.filter((i) => !i.isMan);
+		if (gender == 'male') return users.users.filter((i) => i.isMan);
+		if (gender == 'female') return users.users.filter((i) => !i.isMan);
 	}
 
 	async putUser(data, id) {

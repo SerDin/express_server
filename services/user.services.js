@@ -36,7 +36,7 @@ class UsersService {
 
 	async putUser(data, id) {
 		//читаю файл с данными
-		const put = await fs.readFile('data.json', 'utf8', async (err, datas) => {
+		await fs.readFile('data.json', 'utf8', async (err, datas) => {
 			if (err) throw err;
 			const allUsers = JSON.parse(datas);
 			console.log('allUsers', allUsers);
@@ -53,24 +53,25 @@ class UsersService {
 			console.log('dataWrite', dataWrite);
 			console.log('typeof putUser', typeof putUser);
 
-			return await fs.writeFile('data.json', dataWrite, function (err) {
+			return fs.writeFile('data.json', dataWrite, (err) => {
 				if (err) {
 					throw err;
 				}
 				console.log('writeOk');
-				return fs.readFile('data.json', 'utf8', async (err, datas) => {
-					if (err) throw err;
-					const allUsers = await JSON.parse(datas);
-					console.log(
-						'allUsers',
-						allUsers.users.find((i) => i.id == id)
-					);
-					return allUsers.users.find((i) => i.id == id);
-				});
+				// return  fs.readFile(
+				// 	'data.json',
+				// 	'utf8',
+				// 	async (err, datas) => {
+				// 		if (err) throw err;
+				// 		const allUsers = await JSON.parse(datas);
+				// console.log(
+				// 	'allUsers',
+				// 	// allUsers.users.find((i) => i.id == id)
+				// );
+				// return allUsers.users.find((i) => i.id == id);
 			});
 		});
-		await console.log('put', put);
-		return await put;
+		return await this.getUsersById(id);
 	}
 
 	async postUser(data) {

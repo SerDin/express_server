@@ -92,13 +92,36 @@ class UsersService {
 		return dataParse.users.at(-1);
 	}
 
-	patchUser(data) {
-		return new Promise((res, rej) => {
-			const id = data.id;
-			const updateUsers = users.filter((i) => i.id == id);
-			const newUser = Object.assign(...updateUsers, data);
-			res(newUser);
+	async patchUser(data) {
+		const id = data.id;
+		console.log('id', id);
+		const dataRead = await this.readData();
+		console.log('dataRead', dataRead);
+
+		const userData = dataRead.users;
+		console.log('userData', userData);
+
+		const userIndex = userData.findIndex((i) => i.id == id);
+		console.log('userIndex', userIndex);
+
+		const updateUser = { ...userData[userIndex], ...data };
+		console.log('updateUser', updateUser);
+		userData[userIndex] = updateUser;
+		console.log('userData', userData);
+		const writeObj = {
+			users: [...userData],
+		};
+
+		console.log('writeObj', writeObj);
+
+		await fs.writeFileSync('data.json', JSON.stringify(writeObj), (err) => {
+			if (err) {
+				throw err;
+			} else {
+				console.log('writePostOk');
+			}
 		});
+		return data;
 	}
 
 	deleteUser(id) {

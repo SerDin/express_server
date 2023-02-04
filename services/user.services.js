@@ -124,12 +124,22 @@ class UsersService {
 		return data;
 	}
 
-	deleteUser(id) {
-		return new Promise((res, rej) => {
-			const ids = users.findIndex((i) => i.id == id);
-			users.splice(ids, 1);
-			res(`${id}`);
+	async deleteUser(id) {
+		const dataRead = await this.readData();
+		console.log('dataRead', dataRead);
+
+		const ids = dataRead.users.findIndex((i) => i.id == id);
+		dataRead.users.splice(ids, 1);
+		console.log('dataRead', dataRead);
+		await fs.writeFileSync('data.json', JSON.stringify(dataRead), (err) => {
+			if (err) {
+				throw err;
+			} else {
+				console.log('writePostOk');
+			}
 		});
+
+		return `${id} is deleted`;
 	}
 }
 

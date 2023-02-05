@@ -1,1 +1,7 @@
-{"users":[{"id":1,"name":"Sergey","isMan":true,"age":31},{"id":2,"name":"Julianna","isMan":false,"age":28}]}
+{
+	"users": [
+		{ "id": 1, "name": "Sergey", "isMan": true, "age": 31 },
+		{ "id": 3, "name": "Pie", "isMan": true, "age": 55 },
+		{ "id": 2, "name": "Juliana", "isMan": false, "age": 29 }
+	]
+}

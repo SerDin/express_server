@@ -1,18 +1,13 @@
-require('dotenv').config()
-const express = require('express')
-const bodyParser = require('body-parser')
+require('dotenv').config();
+const express = require('express');
 
-const jsonParser = bodyParser.json()
+const routes = require('./routes/index');
 
-const fs = require('fs')
+const app = express();
 
-const routes = require('./routes/index')
-
-const app = express()
-
-const port = process.env.PORT
+const PORT = process.env.PORT ?? 3000;
 
 // connect to routes in folder routes
-app.use( '/api', routes)
+app.use('/api', routes);
 
-app.listen(port, () => console.log('Server is Runing ' + port))
+app.listen(PORT, () => console.log(`Server is Runing ${PORT}`));

@@ -23,8 +23,6 @@ class UsersService {
 
 	async getUsersById(id) {
 		const dataUsers = await this.readData();
-		// const { users: user } = dataUsers.users;
-		console.log(dataUsers);
 		return dataUsers.find((i) => i.id == id);
 	}
 

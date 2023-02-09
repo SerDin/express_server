@@ -4,6 +4,8 @@ const UserControllers = require('../../controllers/user.controller');
 
 const bodyParser = require('body-parser');
 
+const { body, validationResult } = require('express-validator');
+
 const jsonParser = bodyParser.json();
 
 router.get('/', async (req, res) => {
@@ -35,14 +37,29 @@ router.get('/gender/:gender', async (req, res) => {
 	}
 });
 
-router.post('/create', jsonParser, async (req, res) => {
-	try {
-		const postUsers = await UserControllers.postUser(req.body);
-		res.send(postUsers);
-	} catch (err) {
-		console.log(err);
+router.post(
+	'/create',
+	[body('name').isLength({ min: 2 }), body('id').isNumeric()],
+	// .withMessage('must be at least 5 chars long'),
+	jsonParser,
+	async (req, res) => {
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return res.status(400).json({ errors: errors.array() });
+			} else next();
+
+			const data = User.create({
+				name: req.body.name,
+			});
+
+			const postUsers = await UserControllers.postUser(data);
+			res.send(postUsers);
+		} catch (err) {
+			console.log(err);
+		}
 	}
-});
+);
 
 router.put('/edit/:id', jsonParser, async (req, res) => {
 	try {

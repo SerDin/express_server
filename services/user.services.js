@@ -59,10 +59,10 @@ class UsersService {
 				if (err) throw err;
 			}
 		);
-		const datas = await fs.readFileSync('data.json', 'utf8');
-		const dataParse = await JSON.parse(datas);
-
-		return dataParse.at(-1);
+		// const datas = await fs.readFileSync('data.json', 'utf8');
+		// const dataParse = await JSON.parse(datas);
+		console.log(dataRead.at(-1));
+		return dataRead.at(-1);
 	}
 
 	async patchUser(data) {

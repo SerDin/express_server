@@ -1,6 +1,7 @@
 {
 	"users": [
 		{ "id": 1, "name": "Sergey", "isMan": true, "age": 31 },
-		{ "id": 3, "name": "Pie", "isMan": true, "age": 55 }
+		{ "id": 4, "name": "SERgeys", "isMan": true, "age": 30 },
+		{ "id": 4, "name": "julcedl", "isMan": true, "age": 30 }
 	]
 }
